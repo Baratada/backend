@@ -25,8 +25,11 @@ def register_blueprints(app):
     from app.routes.auth_routes import auth_bp
     from app.routes.admin_routes import admin_bp  # Import the new admin routes blueprint
     from app.routes.user_routes import user_bp  # Import user blueprint instead of doctor routes
+    from app.routes.appointment_routes import appoint_bp
 
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(admin_bp, url_prefix="/api/admin")  # Register the admin blueprint
     app.register_blueprint(user_bp, url_prefix="/api/users")  # Register the user blueprint
+    app.register_blueprint(appoint_bp, url_prefix="/api/appointment")  # Register the user blueprint
+

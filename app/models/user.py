@@ -10,6 +10,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(256))  # Increase length to 256 characters
     role = db.Column(db.String(50), nullable=False, default='user')
     specialization = db.Column(db.String(100), nullable=True)
+    age = db.Column(db.Integer, default=18)
 
 
     def set_password(self, password):
@@ -26,5 +27,6 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'role': self.role,
-            'specialization': self.specialization
+            'specialization': self.specialization,
+            'age': self.age
         }
