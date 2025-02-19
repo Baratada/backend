@@ -1,9 +1,5 @@
 from app.extensions import db
-
-user_drugs = db.Table('user_drugs',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('drug_id', db.Integer, db.ForeignKey('drugs.id'), primary_key=True)
-)
+from .association_tables import user_drugs
 
 class Drugs(db.Model):
     __tablename__ = "drugs"
@@ -17,8 +13,9 @@ class Drugs(db.Model):
         'User', 
         secondary=user_drugs, 
         back_populates='drugs',
-        overlaps="associated_drugs,users"
+        foreign_keys=[user_drugs.c.drug_id, user_drugs.c.user_id]
     )
+
 
     def to_dict(self):
         return {

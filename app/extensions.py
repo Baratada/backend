@@ -13,7 +13,8 @@ jwt = JWTManager()  # JWT authentication
 cors = CORS(resources={
     r"/api/*": {
         "origins": ["http://localhost:4200"],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True,
         "expose_headers": ["Authorization"],

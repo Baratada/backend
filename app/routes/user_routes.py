@@ -13,7 +13,9 @@ def get_users():
     return jsonify([user.to_dict() for user in users])
 
 @user_bp.route('/update/<int:user_id>', methods=['PATCH'])
+@jwt_required()
 def update_user(user_id):
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
