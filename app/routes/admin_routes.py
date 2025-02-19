@@ -42,35 +42,6 @@ def admin_dashboard():
         'pecialization': u.specialization
     } for u in users])
 
-@admin_bp.route('/update-role/<int:user_id>/<string:role>', methods=['PATCH'])
-@jwt_required()
-def update_role(user_id, role):
-    print(role)
-    user = get_current_user()
-    if not user or not user.is_admin():
-        return jsonify({"message": "Access denied"}), 403
-
-    user_to_update = User.query.get_or_404(user_id)
-    if role not in ['user', 'doctor', 'admin']:
-        return jsonify({"message": "Invalid role"}), 400
-
-    user_to_update.role = role
-    db.session.commit()
-    return jsonify({"message": "User role updated successfully"})
-   
-@admin_bp.route('/update-specialization/<int:user_id>/<string:specialization>', methods=['PATCH'])
-@jwt_required()
-def update_specialization(user_id, specialization):
-    user = get_current_user()
-    if not user or not user.is_admin():
-        return jsonify({"message": "Access denied"}), 403
-
-    user_to_update = User.query.get_or_404(user_id)
-
-    user_to_update.specialization = specialization
-    db.session.commit()
-    return jsonify({"message": "User specialization updated successfully"})
-   
 
 @admin_bp.route('/delete-user/<int:user_id>', methods=['DELETE'])
 @jwt_required()

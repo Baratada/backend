@@ -12,23 +12,24 @@ def get_users():
     users = User.query.all()
     return jsonify([user.to_dict() for user in users])
 
-@user_bp.route('/update-age/<int:user_id>/<int:age>', methods=['PATCH'])
-@jwt_required()
-def update_age(user_id, age):
-
-    # Validate age input
-    if not isinstance(age, int) or age < 0 or age > 120:
-        return jsonify({'error': 'Age must be a number between 0 and 120'}), 400
-
+@user_bp.route('/update/<int:user_id>', methods=['PATCH'])
+def update_user(user_id):
     user = User.query.get(user_id)
     if not user:
-        return jsonify({'error': 'User not found'}), 404
+        return jsonify({"error": "User not found"}), 404
 
-    user.age = age
+    data = request.json
+
+    # Update only provided fields
+    if 'role' in data:
+        user.role = data['role']
+    if 'specialization' in data:
+        user.specialization = data['specialization']
+    if 'age' in data:
+        user.age = data['age']
+
     db.session.commit()
-
-    return jsonify({'message': 'User age updated successfully', 'user_id': user.id, 'new_age': user.age})
-
+    return jsonify({"message": "User updated successfully", "user": user.to_dict()})
 # Get a specific user by ID
 @user_bp.route('<int:user_id>', methods=['GET'])
 def get_user(user_id):
