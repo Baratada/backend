@@ -1,4 +1,3 @@
-# app/models/user.py
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import get_jwt_identity
@@ -7,10 +6,12 @@ from flask_jwt_extended import get_jwt_identity
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(256))  # Increase length to 256 characters
+    password_hash = db.Column(db.String(256))
+    email = db.Column(db.String(120), nullable=False, default="test@test.com")
     role = db.Column(db.String(50), nullable=False, default='user')
     specialization = db.Column(db.String(100), nullable=True)
     age = db.Column(db.Integer, default=18)
+    description = db.Column(db.String(500), nullable=True)
 
 
     def set_password(self, password):
@@ -28,5 +29,6 @@ class User(db.Model):
             'username': self.username,
             'role': self.role,
             'specialization': self.specialization,
-            'age': self.age
+            'age': self.age,
+            'description': self.description
         }

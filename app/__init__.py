@@ -15,10 +15,15 @@ def create_app():
     jwt.init_app(app)
     cors.init_app(app)
 
+    # Import models after db initialization
+    from app.models.user import User
+    from app.models.appointment import Appointment
+
     # Register blueprints (routes)
     register_blueprints(app)
     
     return app
+
 
 def register_blueprints(app):
     from app.routes.home_routes import home_bp
@@ -31,5 +36,4 @@ def register_blueprints(app):
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(admin_bp, url_prefix="/api/admin")  # Register the admin blueprint
     app.register_blueprint(user_bp, url_prefix="/api/users")  # Register the user blueprint
-    app.register_blueprint(appoint_bp, url_prefix="/api/appointment")  # Register the user blueprint
-
+    app.register_blueprint(appoint_bp, url_prefix="/api/appointments")  # Register the appointment blueprint

@@ -6,6 +6,19 @@ from flask_cors import CORS
 
 # Initialize extensions
 db = SQLAlchemy()  # Database instance
+
+
 migrate = Migrate()  # Database migrations
 jwt = JWTManager()  # JWT authentication
-cors = CORS()  # CORS support
+cors = CORS(resources={
+    r"/api/*": {
+        "origins": ["http://localhost:4200"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True,
+        "expose_headers": ["Authorization"],
+        "max_age": 600,
+        "send_wildcard": True,
+        "automatic_options": True
+    }
+})  # CORS support
