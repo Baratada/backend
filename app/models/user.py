@@ -11,6 +11,7 @@ class User(db.Model):
     role = db.Column(db.String(50), nullable=False, default='user')
     specialization = db.Column(db.String(100), nullable=True)
     age = db.Column(db.Integer, default=18)
+    description = db.Column(db.String(500), nullable=True)
 
 
     def set_password(self, password):
@@ -28,5 +29,6 @@ class User(db.Model):
             'username': self.username,
             'role': self.role,
             'specialization': self.specialization,
-            'age': self.age
+            'age': self.age,
+            'description': self.description
         }

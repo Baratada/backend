@@ -31,5 +31,5 @@ def register_blueprints(app):
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(admin_bp, url_prefix="/api/admin")  # Register the admin blueprint
     app.register_blueprint(user_bp, url_prefix="/api/users")  # Register the user blueprint
-    app.register_blueprint(appoint_bp, url_prefix="/api/appointment")  # Register the user blueprint
+    app.register_blueprint(appoint_bp, url_prefix="/api/appointments")  # Register the user blueprint
 
