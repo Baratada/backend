@@ -66,23 +66,24 @@ def seed_data():
 
         # Create sample drugs if they don't exist
         drugs_to_create = [
-            ('Aspirin', False, 100),
-            ('Ibuprofen', False, 50),
-            ('Amoxicillin', True, 30),
-            ('Paracetamol', False, 200),
-            ('Lisinopril', True, 40),
-            ('Metformin', True, 60),
-            ('Atorvastatin', True, 35),
-            ('Levothyroxine', True, 25),
-            ('Omeprazole', False, 80),
-            ('Albuterol', True, 45)
+            ('Aspirin', False, 100, 'Pain reliever', 10.0),
+            ('Ibuprofen', False, 50, 'Anti-inflammatory', 5.0),
+            ('Amoxicillin', True, 30, 'Antibiotic', 15.0),
+            ('Paracetamol', False, 200, 'Pain reliever', 8.0),
+            ('Lisinopril', True, 40, 'Blood pressure medication', 20.0),
+            ('Metformin', True, 60, 'Diabetes medication', 12.0),
+            ('Atorvastatin', True, 35, 'Cholesterol medication', 18.0),
+            ('Levothyroxine', True, 25, 'Thyroid medication', 22.0),
+            ('Omeprazole', False, 80, 'Acid reducer', 14.0),
+            ('Albuterol', True, 45, 'Asthma medication', 25.0)
         ]
-        
+
         created_count = 0
-        for name, prescription, stock in drugs_to_create:
+        
+        for name, prescription, stock, info, price in drugs_to_create:
             existing_drug = Drugs.query.filter_by(name=name).first()
             if not existing_drug:
-                drug = Drugs(name=name, prescription=prescription, stock=stock)
+                drug = Drugs(name=name, prescription=prescription, stock=stock, info=info, price=price)
                 db.session.add(drug)
                 created_count += 1
         db.session.commit()
