@@ -1,8 +1,9 @@
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import get_jwt_identity
+from app.models.drugs import user_drugs
 
-# app/models/user.py
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
@@ -12,6 +13,9 @@ class User(db.Model):
     specialization = db.Column(db.String(100), nullable=True)
     age = db.Column(db.Integer, default=18)
     description = db.Column(db.String(500), nullable=True)
+    
+    drugs = db.relationship('Drugs', secondary=user_drugs, backref=db.backref('users', lazy='dynamic'))
+
 
 
     def set_password(self, password):
@@ -21,14 +25,9 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def is_admin(self):
-        return self.role == "admin"  # Check if the user's role is 'admin'
+        return self.role == "admin"
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'username': self.username,
-            'role': self.role,
-            'specialization': self.specialization,
-            'age': self.age,
             'description': self.description
         }

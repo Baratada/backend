@@ -18,6 +18,7 @@ def create_app():
     # Import models after db initialization
     from app.models.user import User
     from app.models.appointment import Appointment
+    from app.models.drugs import Drugs
 
     # Register blueprints (routes)
     register_blueprints(app)
