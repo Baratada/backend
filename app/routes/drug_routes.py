@@ -6,11 +6,16 @@ from flask_jwt_extended import jwt_required
 
 drug_bp = Blueprint('drugs', __name__)
 
-# Get all users
+# Get all drugs with optional search
 @drug_bp.route('', methods=['GET'])
 def get_drugs():
-    drugs = Drugs.query.all()
+    search_term = request.args.get('search')
+    if search_term:
+        drugs = Drugs.query.filter(Drugs.name.like(f'%{search_term}%')).all()
+    else:
+        drugs = Drugs.query.all()
     return jsonify([drug.to_dict() for drug in drugs])
+
 
 
 @drug_bp.route('<int:drug_id>', methods=['GET'])
@@ -38,4 +43,3 @@ def update_drug(drug_id):
 
     db.session.commit()
     return jsonify({"message": "User updated successfully", "user": drug.to_dict()})
-# Get a specific user by ID
