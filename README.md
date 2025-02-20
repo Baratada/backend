@@ -1,4 +1,4 @@
-Create a virtual environment with "python -m venv venv" then activate the venv via "venv/Scripts/activate. 
+Create a virtual environment with "python -m venv venv" then activate the venv via "venv/Scripts/activate."
 
 Download all pips from the requirements.txt with "pip install -r requirements.txt" (must be in backend directory). 
 
