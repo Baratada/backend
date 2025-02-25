@@ -59,3 +59,66 @@ def delete_user(user_id):
     except Exception as e:
         print("Error:", str(e))  # Debugging
         return jsonify({"error": "An error occurred"}), 500
+    
+@admin_bp.route('/update-role/<int:user_id>', methods=['PATCH'])
+@jwt_required()
+def update_user_role(user_id):
+    try:
+        user = get_current_user()
+        if not user or not user.is_admin():
+            return jsonify({"message": "Access denied"}), 403
+        
+        # Fetch user to update
+        user_to_update = User.query.get_or_404(user_id)
+        
+        # Get new role from request
+        data = request.json
+        new_role = data.get('role')
+        if not new_role:
+            return jsonify({"error": "Role is required"}), 400
+
+        # Validate the role (optional)
+        if new_role not in ['admin', 'user', 'doctor']:
+            return jsonify({"error": "Invalid role"}), 400
+
+        # Update the role
+        user_to_update.role = new_role
+        db.session.commit()
+
+        return jsonify({"message": "User role updated successfully", "user": user_to_update.to_dict()})
+
+    except Exception as e:
+        print("Error:", str(e))  # Debugging
+        return jsonify({"error": "An error occurred"}), 500
+
+
+@admin_bp.route('/update-specialization/<int:user_id>', methods=['PATCH'])
+@jwt_required()
+def update_doctor_specialization(user_id):
+    try:
+        user = get_current_user()
+        if not user or not user.is_admin():
+            return jsonify({"message": "Access denied"}), 403
+
+        # Fetch the user to update
+        doctor_to_update = User.query.get_or_404(user_id)
+
+        # Check if the user is a doctor
+        if doctor_to_update.role != 'doctor':
+            return jsonify({"error": "User is not a doctor"}), 400
+        
+        # Get new specialization from request
+        data = request.json
+        new_specialization = data.get('specialization')
+        if not new_specialization:
+            return jsonify({"error": "Specialization is required"}), 400
+
+        # Update the specialization
+        doctor_to_update.specialization = new_specialization
+        db.session.commit()
+
+        return jsonify({"message": "Doctor's specialization updated successfully", "user": doctor_to_update.to_dict()})
+
+    except Exception as e:
+        print("Error:", str(e))  # Debugging
+        return jsonify({"error": "An error occurred"}), 500

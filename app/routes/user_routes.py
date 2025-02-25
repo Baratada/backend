@@ -1,6 +1,7 @@
 # app/routes/user_routes.py
 from flask import Blueprint, jsonify, abort, request
 from app.models.user import User
+from app.models.drugs import Drugs
 from app.extensions import db
 from flask_jwt_extended import jwt_required
 
@@ -27,8 +28,15 @@ def update_user(user_id):
         user.role = data['role']
     if 'specialization' in data:
         user.specialization = data['specialization']
-    if 'age' in data:
+    if 'age' in data:   
         user.age = data['age']
+    if 'drug' in data:
+        drug_ids = data['drug'] if isinstance(data['drug'], list) else [data['drug']]
+        for id in drug_ids:
+            drug = Drugs.query.get(id)
+            if drug and drug not in user.drugs:
+                user.drugs.append(drug)
+
 
     db.session.commit()
     return jsonify({"message": "User updated successfully", "user": user.to_dict()})

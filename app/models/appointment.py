@@ -8,6 +8,7 @@ class Appointment(db.Model):
     patient_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     doctor_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     appointment_date = db.Column(db.DateTime, nullable=False)
+    reason = db.Column(db.String(250), nullable=True)
     status = db.Column(db.String(20), default="pending")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -22,6 +23,7 @@ class Appointment(db.Model):
             "patient_id": self.patient_id,
             "doctor_id": self.doctor_id,
             "appointment_date": self.appointment_date.isoformat(),
+            "reason": self.reason,
             "status": self.status,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),

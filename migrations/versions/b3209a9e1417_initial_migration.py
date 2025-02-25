@@ -1,8 +1,8 @@
-"""Recreate migrations
+"""Initial migration
 
-Revision ID: ef6963c1c26c
+Revision ID: b3209a9e1417
 Revises: 
-Create Date: 2025-02-19 21:29:18.261657
+Create Date: 2025-02-25 20:38:59.242295
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ef6963c1c26c'
+revision = 'b3209a9e1417'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('prescription', sa.Boolean(), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=False),
     sa.Column('info', sa.String(length=250), nullable=True),
+    sa.Column('price', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -32,9 +33,9 @@ def upgrade():
     sa.Column('username', sa.String(length=80), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('birth_date', sa.Date(), nullable=True),
     sa.Column('role', sa.String(length=20), nullable=False),
     sa.Column('specialization', sa.String(length=80), nullable=True),
-    sa.Column('age', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
@@ -44,6 +45,7 @@ def upgrade():
     sa.Column('patient_id', sa.Integer(), nullable=False),
     sa.Column('doctor_id', sa.Integer(), nullable=False),
     sa.Column('appointment_date', sa.DateTime(), nullable=False),
+    sa.Column('reason', sa.String(length=250), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),

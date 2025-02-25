@@ -19,6 +19,7 @@ def book_appointment():
     patient_id = data.get("patient_id")
     doctor_id = data.get("doctor_id")
     date_str = data.get("appointment_date")
+    info = data.get("info")
 
     if not patient_id:
         return jsonify({"error": "Missing patient_id"}), 400
@@ -38,7 +39,7 @@ def book_appointment():
     except ValueError:
         return jsonify({"error": "Invalid date format"}), 400
 
-    appointment = Appointment(patient_id=patient_id, doctor_id=doctor_id, appointment_date=date, status="pending", created_at = date.replace(tzinfo=None), updated_at = date.replace(tzinfo=None))
+    appointment = Appointment(patient_id=patient_id, reason=reason ,doctor_id=doctor_id, appointment_date=date, status="pending", created_at = date.replace(tzinfo=None), updated_at = date.replace(tzinfo=None))
     db.session.add(appointment)
     db.session.commit()
 

@@ -3,8 +3,8 @@ import uuid
 from app.extensions import db
 from app.models.user import User
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
-import datetime
-
+from datetime import datetime
+from datetime import timedelta
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/register", methods=["POST"])
@@ -15,12 +15,14 @@ def register():
     email = data.get("email")
     role = data.get("role")
     specialization = data.get("specialization")
-
+    birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d") if "birth_date" in data else None
+    
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "Username already exists"}), 400
 
     new_user = User(
         username=username,
+        birth_date=birth_date,
         email=email,
         role=role,
         specialization=specialization
@@ -41,7 +43,7 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    access_token = create_access_token(identity=user.id, expires_delta=datetime.timedelta(days=7))
+    access_token = create_access_token(identity=user.id, expires_delta=timedelta(days=7))
     refresh_token = create_refresh_token(identity=user.id)
     
     return jsonify({
