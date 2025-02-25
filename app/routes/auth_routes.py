@@ -45,10 +45,10 @@ def login():
 
     access_token = create_access_token(identity=user.id, expires_delta=timedelta(days=7))
     refresh_token = create_refresh_token(identity=user.id)
-    
+
     return jsonify({
-        "access_token": access_token,
-        "refresh_token": refresh_token,
+        "access_token": access_token.decode('utf-8') if isinstance(access_token, bytes) else access_token,
+        "refresh_token": refresh_token.decode('utf-8') if isinstance(refresh_token, bytes) else refresh_token,
         "role": user.role,
         "user_id": user.id
     }), 200
