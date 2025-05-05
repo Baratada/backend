@@ -39,9 +39,8 @@ def admin_dashboard():
         'id': u.id,
         'username': u.username,
         'role': u.role,
-        'pecialization': u.specialization
+        'specialization': u.specialization
     } for u in users])
-
 
 @admin_bp.route('/delete-user/<int:user_id>', methods=['DELETE'])
 @jwt_required()
@@ -59,7 +58,7 @@ def delete_user(user_id):
     except Exception as e:
         print("Error:", str(e))  # Debugging
         return jsonify({"error": "An error occurred"}), 500
-    
+
 @admin_bp.route('/update-role/<int:user_id>', methods=['PATCH'])
 @jwt_required()
 def update_user_role(user_id):
@@ -90,7 +89,6 @@ def update_user_role(user_id):
     except Exception as e:
         print("Error:", str(e))  # Debugging
         return jsonify({"error": "An error occurred"}), 500
-
 
 @admin_bp.route('/update-specialization/<int:user_id>', methods=['PATCH'])
 @jwt_required()
