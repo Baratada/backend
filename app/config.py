@@ -12,7 +12,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
-    CORS_ORIGINS = ["http://localhost:4200"]
+    CORS_ORIGINS = ["http://93.86.64.15"]
     CORS_SUPPORTS_CREDENTIALS = True
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     CORS_ALLOW_HEADERS = ["Content-Type", "Authorization"]
